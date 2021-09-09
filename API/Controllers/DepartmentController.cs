@@ -10,12 +10,12 @@ namespace API.Controllers
 {
     //[ApiController]
     //[Route("api/[controller]")]
+    //DRY Dont repeat yourself
 
-
-    [ApiVersion("1.0")]
-    [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    public class DepartmentController : ControllerBase
+    //[ApiVersion("1.0")]
+    //[ApiController]
+    //[Route("api/v{version:apiVersion}/[controller]")]
+    public class DepartmentController : MainApiController
     {
 
 

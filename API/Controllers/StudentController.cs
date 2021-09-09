@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [ApiVersion("1.0")]
-    [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    //DRY Dont repeat yourself
+    //[ApiVersion("1.0")]
+    //[ApiController]
+    //[Route("api/v{version:apiVersion}/[controller]")]
 
 
     //[ApiController]
     //[Route("api/[controller]")]
-    public class StudentController : ControllerBase
+    public class StudentController : MainApiController
     {
         [HttpGet]
         public IActionResult GetAll()
