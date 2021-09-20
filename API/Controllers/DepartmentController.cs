@@ -1,10 +1,11 @@
-﻿using API.Model;
+﻿using DLO.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DLO.Repositories;
 
 namespace API.Controllers
 {
@@ -17,40 +18,46 @@ namespace API.Controllers
     //[Route("api/v{version:apiVersion}/[controller]")]
     public class DepartmentController : MainApiController
     {
+        private readonly IDepartmentRepository _departmentRepository;
+
+        public DepartmentController(IDepartmentRepository departmentRepository)
+        {
+            _departmentRepository = departmentRepository;
+        }
 
 
         //GET
  
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult>  GetAll()
         {
-            return Ok(DepartmentStatic.GetAllDepartments());
+            return Ok(await _departmentRepository.GetAllAsync());
         }
 
 
         [HttpGet("{code}")]
-        public IActionResult GetA(string code)
+        public async Task<IActionResult> GetA(string code)
         {
-            return Ok(DepartmentStatic.GetADepartment(code));
+            return Ok(await _departmentRepository.GetAsync(code));
         }
 
         [HttpPost]
-        public IActionResult Insert(Department department)
+        public async Task<IActionResult> Insert(Department department)
         {
-            return Ok(DepartmentStatic.InsertDepartment(department));
+            return Ok(await _departmentRepository.InsertAsync(department));
         }
 
         [HttpPut("{code}")]
-        public IActionResult Update(string code, Department department)
+        public async Task <IActionResult> Update(string code, Department department)
         {
-            return Ok(DepartmentStatic.UpdateDepartment(code,department));
+            return Ok(await _departmentRepository.UpdateAsync(code,department));
         }
 
         [HttpDelete("{code}")]
-        public IActionResult Delete(string code)
+        public async Task<IActionResult> Delete(string code)
         {
-            return Ok(DepartmentStatic.DeleteDepartment(code));
+            return Ok(await _departmentRepository.DeleteAsync(code));
         }
 
 

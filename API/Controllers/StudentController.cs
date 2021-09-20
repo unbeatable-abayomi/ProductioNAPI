@@ -1,9 +1,10 @@
-﻿using API.Model;
+﻿using DLO.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DLO.Repositories;
 
 namespace API.Controllers
 {
@@ -17,7 +18,49 @@ namespace API.Controllers
     //[Route("api/[controller]")]
     public class StudentController : MainApiController
     {
+        private readonly IStudentRepository _studentRepository;
+        public StudentController(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }
+        
+        
         [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _studentRepository.GetAllAsync());
+        }
+
+        [HttpGet("{email}")]
+
+        public async Task <IActionResult> GetAStudent(string email)
+        {
+            return Ok(await _studentRepository.GetAsync(email));
+        }
+
+
+        [HttpPost]
+
+        public async Task <IActionResult> Insert (Student student)
+        {
+            return Ok(await _studentRepository.InsertAsync(student));
+        }
+
+        //GET
+        [HttpPut("{email}")]
+        public async Task <IActionResult> Update(string email, Student student)
+        {
+            return Ok(await _studentRepository.UpdateAsync(email,student));
+        }
+
+        [HttpDelete("{email}")]
+
+        public async  Task <IActionResult> Delete(string email)
+        {
+            return Ok(await _studentRepository.DeleteAsync(email));
+        }
+        
+        /*[HttpGet]
         public IActionResult GetAll()
         {
             return Ok(StudentStatic.GetAllStudents());
@@ -50,7 +93,7 @@ namespace API.Controllers
        public IActionResult Delete(string email)
         {
             return Ok(StudentStatic.DeleteStudent(email));
-        }
+        }*/
 
 
 
