@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL;
 using DLO;
 using DLO.DBContext;
 
@@ -42,7 +43,7 @@ namespace API
             });
          
             DOLDependency.AllDependency(services,Configuration);
-
+            BLLDependency.AllDependency(services,Configuration);
     
         }
 

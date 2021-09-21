@@ -62,7 +62,7 @@ namespace DLO.Repositories
             findDepartment.Name = department.Name;
             _dbContext.Departments.Update(findDepartment);
             await _dbContext.SaveChangesAsync();
-            return department;
+            return findDepartment;
         }
     }
 }

@@ -41,29 +41,29 @@ namespace DLO.Repositories
             return student;
         }
         
-        public async Task<Student> DeleteAsync(string code)
+        public async Task<Student> DeleteAsync(string email)
         {
 
-            var student = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == code);
+            var student = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == email);
             _dbContext.Students.Remove(student);
             await _dbContext.SaveChangesAsync();
             return student;
         }
-        public async Task<Student> GetAsync(string code)
+        public async Task<Student> GetAsync(string email)
         {
 
-            var student = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == code);
+            var student = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == email);
             return student;
         }
         
-        public async Task<Student> UpdateAsync(string code,Student student)
+        public async Task<Student> UpdateAsync(string email,Student student)
         {
 
-            var findStudent = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == code);
+            var findStudent = await _dbContext.Students.FirstOrDefaultAsync(c => c.Email == email);
             findStudent.Name = student.Name;
             _dbContext.Students.Update(findStudent);
             await _dbContext.SaveChangesAsync();
-            return student;
+            return findStudent;
         }
     }
 }
