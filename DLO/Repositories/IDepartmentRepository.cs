@@ -11,10 +11,10 @@ namespace DLO.Repositories
     {
        Task <Department> InsertAsync(Department department);
        Task<List<Department>> GetAllAsync();
-       Task <Department> DeleteAsync(string code);
+       Task <bool> DeleteAsync(Department department);
        
        Task <Department> GetAsync(string code);
-       Task<Department> UpdateAsync(string code,Department department);
+       Task<bool> UpdateAsync(Department department);
 
        Task<Department> FindByName(string name);
        
@@ -45,13 +45,17 @@ namespace DLO.Repositories
           return departments;
         }
         
-        public async Task<Department> DeleteAsync(string code)
+        public async Task<bool> DeleteAsync(Department department)
         {
 
-            var department = await _dbContext.Departments.FirstOrDefaultAsync(c => c.Code == code);
+           // var department = await _dbContext.Departments.FirstOrDefaultAsync(c => c.Code == code);
             _dbContext.Departments.Remove(department);
-            await _dbContext.SaveChangesAsync();
-            return department;
+            if (await _dbContext.SaveChangesAsync() > 0)
+            {
+                return true;
+            } ;
+            //await _dbContext.SaveChangesAsync();
+            return false;
         }
         public async Task<Department> GetAsync(string code)
         {
@@ -60,14 +64,17 @@ namespace DLO.Repositories
             return department;
         }
         
-        public async Task<Department> UpdateAsync(string code,Department department)
+        public async Task<bool> UpdateAsync(Department department)
         {
 
-            var findDepartment = await _dbContext.Departments.FirstOrDefaultAsync(c => c.Code == code);
-            findDepartment.Name = department.Name;
-            _dbContext.Departments.Update(findDepartment);
-            await _dbContext.SaveChangesAsync();
-            return findDepartment;
+            //var findDepartment = await _dbContext.Departments.FirstOrDefaultAsync(c => c.Code == code);
+            //findDepartment.Name = department.Name;
+            _dbContext.Departments.Update(department);
+            if (await _dbContext.SaveChangesAsync() > 0)
+            {
+                return true;
+            };
+            return false;
         }
 
         public async Task<Department> FindByName(string name)
