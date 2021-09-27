@@ -1,4 +1,6 @@
-﻿using BLL.Services;
+﻿using BLL.Request;
+using BLL.Services;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 
@@ -15,7 +17,14 @@ namespace BLL
             //repository dependency
 
             services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<IStudentService, StudentService>();
             //services.AddTransient<IStudentRepository, StudentRepository>();
+            AllFluentValidationDependency(services);
+        }
+
+        private static void AllFluentValidationDependency(IServiceCollection services)
+        {
+            services.AddTransient<IValidator<DepartmentInsertRequestViewModel>,DepartmentInsertRequestViewModelValidator>();
         }
     }
 }

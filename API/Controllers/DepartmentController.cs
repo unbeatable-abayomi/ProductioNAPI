@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Request;
 using BLL.Services;
 using DLO.Repositories;
 
@@ -46,9 +47,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(Department department)
+        public async Task<IActionResult> Insert(DepartmentInsertRequestViewModel request)
         {
-            return Ok(await _departmentService.InsertAsync(department));
+            return Ok(await _departmentService.InsertAsync(request));
         }
 
         [HttpPut("{code}")]

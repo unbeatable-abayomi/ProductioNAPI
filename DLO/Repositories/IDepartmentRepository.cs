@@ -16,6 +16,11 @@ namespace DLO.Repositories
        Task <Department> GetAsync(string code);
        Task<Department> UpdateAsync(string code,Department department);
 
+       Task<Department> FindByName(string name);
+       
+       Task<Department> FindByCode(string code);
+       
+
     }
 
     public class DepartmentRepository : IDepartmentRepository
@@ -63,6 +68,16 @@ namespace DLO.Repositories
             _dbContext.Departments.Update(findDepartment);
             await _dbContext.SaveChangesAsync();
             return findDepartment;
+        }
+
+        public async Task<Department> FindByName(string name)
+        {
+            return await _dbContext.Departments.FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<Department> FindByCode(string code)
+        {
+            return await _dbContext.Departments.FirstOrDefaultAsync(x => x.Code == code);
         }
     }
 }
