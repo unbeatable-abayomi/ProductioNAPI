@@ -15,7 +15,7 @@ namespace DLO.Repositories
        
         Task <Student> GetAsync(string code);
         Task<Student> UpdateAsync(string code,Student student);
-    }
+    }   
 
 
 

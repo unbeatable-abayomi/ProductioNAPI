@@ -51,7 +51,7 @@ namespace BLL.Services
             var department = await _departmentRepository.GetAsync(code);
             if (department == null)
             {
-              throw  new ApplicationValidationException("department no found");
+              throw  new ApplicationValidationException("department not found");
             }
 
             if (await _departmentRepository.DeleteAsync(department))
@@ -66,7 +66,7 @@ namespace BLL.Services
             var department =  await _departmentRepository.GetAsync(code);
             if (department == null)
             {
-                throw  new ApplicationValidationException("department no found");
+                throw  new ApplicationValidationException("department not found");
             }
 
             return department;
@@ -85,7 +85,7 @@ namespace BLL.Services
                 var existsAlreadyCode = await _departmentRepository.FindByCode(adepartment.Code);
                 if (existsAlreadyCode != null)
                 {
-                    throw  new ApplicationValidationException("Your updated code already pressnt in our system");
+                    throw  new ApplicationValidationException("Your updated code already present in our system");
                 }
 
                 department.Code = adepartment.Code;
