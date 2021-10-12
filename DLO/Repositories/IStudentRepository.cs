@@ -6,22 +6,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DLO.Repositories
 {
-    public interface IStudentRepository
+    public interface IStudentRepository : IRepositoryBase<Student>
     {
-        Task<Student> InsertAsync(Student student);
+        /*Task<Student> InsertAsync(Student student);
         
         Task<List<Student>> GetAllAsync();
         Task <Student> DeleteAsync(string code);
        
         Task <Student> GetAsync(string code);
-        Task<Student> UpdateAsync(string code,Student student);
+        Task<Student> UpdateAsync(string code,Student student);*/
     }   
 
 
 
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : RepositoryBase<Student>, IStudentRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+
+        public StudentRepository(ApplicationDbContext context) : base(context)
+        {
+                
+        }
+        /*private readonly ApplicationDbContext _dbContext;
         public StudentRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -64,6 +69,6 @@ namespace DLO.Repositories
             _dbContext.Students.Update(findStudent);
             await _dbContext.SaveChangesAsync();
             return findStudent;
-        }
+        }*/
     }
 }

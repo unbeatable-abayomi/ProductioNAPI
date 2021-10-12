@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DLO.Model;
 using DLO.Repositories;
+using Utility.Exceptions;
 
 namespace BLL.Services
 {
@@ -29,27 +31,56 @@ namespace BLL.Services
 
         public async Task<Student> InsertAsync(Student student)
         {
-           return await _studentRepository.InsertAsync(student);
+            await _studentRepository.CreateAsync(student);
+            if (await _studentRepository.SaveCompletedAsync())
+            {
+                return student;
+            }
+
+            throw new ApplicationValidationException("Insert has some problem");
         }
 
         public async Task<List<Student>> GetAllAsync()
         {
-            return await _studentRepository.GetAllAsync();
+            return await _studentRepository.GetList();
         }
 
-        public async Task<Student> DeleteAsync(string code)
+        public async Task<Student> DeleteAsync(string email)
         {
-            return await _studentRepository.DeleteAsync(code);
+            var dbStudent = await _studentRepository.FindSingleAsync(x => x.Email == email);
+            if (dbStudent == null)
+            {
+                throw new ApplicationValidationException("student not found");
+            }
+
+            _studentRepository.Delete(dbStudent);
+            if (await _studentRepository.SaveCompletedAsync())
+            {
+                return dbStudent;
+            }
+            throw new ApplicationValidationException("delete has some issues");
         }
 
-        public async Task<Student> GetAsync(string code)
+        public async Task<Student> GetAsync(string email)
         {
-            return await _studentRepository.GetAsync(code);
+           return  await _studentRepository.FindSingleAsync(x => x.Email == email);
         }
 
-        public async Task<Student> UpdateAsync(string code, Student student)
+        public async Task<Student> UpdateAsync(string email, Student student)
         {
-            return await _studentRepository.UpdateAsync(code, student);
+            var dbStudent = await _studentRepository.FindSingleAsync(x => x.Email == email);
+            if (dbStudent == null)
+            {
+                throw new ApplicationValidationException("student not found");
+            }
+
+            dbStudent.Name = student.Name;
+            _studentRepository.Update(dbStudent);
+            if (await _studentRepository.SaveCompletedAsync())
+            {
+                return dbStudent;
+            }
+            throw new ApplicationValidationException("Update has some issues");
         }
     }
 }

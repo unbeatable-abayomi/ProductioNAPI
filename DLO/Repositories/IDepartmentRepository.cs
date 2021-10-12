@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DLO.Repositories
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IRepositoryBase<Department>
     {
-       Task <Department> InsertAsync(Department department);
+       /*Task <Department> InsertAsync(Department department);
        Task<List<Department>> GetAllAsync();
        Task <bool> DeleteAsync(Department department);
        
@@ -18,14 +18,18 @@ namespace DLO.Repositories
 
        Task<Department> FindByName(string name);
        
-       Task<Department> FindByCode(string code);
+       Task<Department> FindByCode(string code);*/
        
 
     }
 
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        public DepartmentRepository(ApplicationDbContext context) : base(context)
+        {
+        }
+        
+        /*private readonly ApplicationDbContext _dbContext;
         public DepartmentRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -85,6 +89,7 @@ namespace DLO.Repositories
         public async Task<Department> FindByCode(string code)
         {
             return await _dbContext.Departments.FirstOrDefaultAsync(x => x.Code == code);
-        }
+        }*/
+      
     }
 }
